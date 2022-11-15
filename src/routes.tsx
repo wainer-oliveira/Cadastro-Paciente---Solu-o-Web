@@ -4,6 +4,7 @@ import {
     Routes
   } from "react-router-dom";
   import {HomePage} from './views/HomePage'
+  import { PatientDetail } from "./views/PatientDetail"
 
 export default function AppRoutes() {
 
@@ -14,6 +15,12 @@ export default function AppRoutes() {
                     path="*"
                     element={
                         <HomePage/>
+                    }
+                />
+                <Route
+                    path="/patient/:id"
+                    element={
+                        <PatientDetail/>
                     }
                 />
             </Routes>

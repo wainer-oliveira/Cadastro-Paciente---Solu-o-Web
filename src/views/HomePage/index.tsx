@@ -45,7 +45,21 @@ export function HomePage() {
             accessor: "action" as const
         }
     ]
-    const tableData = patients.map((patient: any) => ({
+
+    const handleDeletePatient = ( patient: any, index: number ) => {
+        patient.ativo = false
+        localStorage.setItem(patientsStorage, JSON.stringify(patients.map( item => {
+            if(patient.id == item.id) return patient
+            return item
+        })))
+
+        setPatients(patients.map( item => {
+            if(patient.id == item.id) return patient
+            return item
+        }))
+    }
+
+    const tableData = patients.filter(item  => item.ativo).map((patient: any, index: number) => ({
         nome: patient?.nome,
         dataNascimento: patient?.dataNascimento,
         cpf: patient?.cpf,
@@ -66,7 +80,7 @@ export function HomePage() {
                 </Button>{" "}
                 <Button 
                     colorScheme={"red"}
-                    onClick={() => console.log("Excluir", patient)}
+                    onClick={() => handleDeletePatient(patient, index)}
                     size="sm"
                 >
                     <Icon

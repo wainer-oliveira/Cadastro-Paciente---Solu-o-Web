@@ -1,0 +1,16 @@
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+var vite_config_default = defineConfig({
+  plugins: [react()]
+});
+module.exports = {
+  root: "src",
+  build: {
+    outDir: "../build"
+  }
+};
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImltcG9ydCB7IGRlZmluZUNvbmZpZyB9IGZyb20gJ3ZpdGUnXG5pbXBvcnQgcmVhY3QgZnJvbSAnQHZpdGVqcy9wbHVnaW4tcmVhY3QnXG5pbXBvcnQgcGF0aCBmcm9tICdwYXRoJ1xuXG4vLyBodHRwczovL3ZpdGVqcy5kZXYvY29uZmlnL1xuZXhwb3J0IGRlZmF1bHQgZGVmaW5lQ29uZmlnKHtcbiAgcGx1Z2luczogW3JlYWN0KCldXG59KVxubW9kdWxlLmV4cG9ydHMgPSB7XG4gIHJvb3Q6IFwic3JjXCIsXG4gIGJ1aWxkOiB7XG4gICAgb3V0RGlyOiBcIi4uL2J1aWxkXCJcbiAgfVxufSJdLAogICJtYXBwaW5ncyI6ICI7QUFBQSxTQUFTLG9CQUFvQjtBQUM3QixPQUFPLFdBQVc7QUFJbEIsSUFBTyxzQkFBUSxhQUFhO0FBQUEsRUFDMUIsU0FBUyxDQUFDLE1BQU0sQ0FBQztBQUNuQixDQUFDO0FBQ0QsT0FBTyxVQUFVO0FBQUEsRUFDZixNQUFNO0FBQUEsRUFDTixPQUFPO0FBQUEsSUFDTCxRQUFRO0FBQUEsRUFDVjtBQUNGOyIsCiAgIm5hbWVzIjogW10KfQo=

@@ -16,7 +16,6 @@ export function HomePage() {
             setPatients(JSON.parse(data || "[]"))
         }
         getPatientsFromStorage()
-
     }, [] )
 
     const tableColumns = [
@@ -92,18 +91,6 @@ export function HomePage() {
             </>
         )
     }))
-
-    const handleAddPatient = () => {
-        let obj = {
-            nome: "Wainer",
-            dataNascimento: "05/11/1997",
-            cpf: "44534993889",
-            sexo: "masculino",
-            endereco: "Ricardo Pelizaro, 41, Cristais Paulista - SP"
-        }
-        setPatients([...patients, obj])
-        localStorage.setItem(patientsStorage, JSON.stringify([...patients, obj]))
-    }
 
     return (
             <Box p="12">

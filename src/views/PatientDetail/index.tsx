@@ -25,24 +25,23 @@ export function PatientDetail() {
     const [uf, setUf] = useState("")
     const [rua, setRua] = useState("")
     const [numeroCasa, setNumeroCasa] = useState("")
-    const [endereco, setEndereco] = useState("")
-    const [registrationPatient, setRegistrationPatient] = useState(true)
+    const [registrationPatient, setRegistrationPatient] = useState(false)
 
     const validatePatient = () => {
         if(!name) {
-            setRegistrationPatient(false)
+            setRegistrationPatient(true)
             return
         }
         if(!dataNascimento) {
-            setRegistrationPatient(false)
+            setRegistrationPatient(true)
             return
         }
         if(!cpf) {
-            setRegistrationPatient(false)
+            setRegistrationPatient(true)
             return
         }
         if(!sexo) {
-            setRegistrationPatient(false)
+            setRegistrationPatient(true)
             return
         }
         handleAddPatient()
@@ -81,7 +80,7 @@ export function PatientDetail() {
             dataNascimento: formatBirthDatePatient(dataNascimento),
             cpf: cpf,
             sexo: sexo,
-            endereco: endereco,
+            endereco: `${cep}, ${cidade}-${uf}, ${rua}, ${numeroCasa}`,
             ativo: true
         }
         localStorage.setItem(patientsStorage, JSON.stringify([...getPatientList(), obj]))
@@ -135,8 +134,6 @@ export function PatientDetail() {
                                 mask={masks.cpf}
                                 value={cpf}
                                 onChange={(e: any) => { setCpf(e.target.value)
-                                    // const patientCpf = cpfMask(e.target.value)
-                                    // setCpf(patientCpf)
                                 }}
                             />
                         </Box>
@@ -155,9 +152,6 @@ export function PatientDetail() {
                 </FormControl>
                 <FormControl 
                     p={3}
-                    onChange={(e: any) =>{
-                        setEndereco(`${cep}, ${cidade}-${uf}, ${rua}, ${numeroCasa}`)
-                    }}
                 >
                     <FormLabel as='legend'>Endereço</FormLabel>
                     <HStack>

@@ -10,11 +10,12 @@ import { Box,
      RadioGroup} from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { BiArrowBack } from "react-icons/all"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { IMaskInput } from "react-imask";
 
 export function PatientDetail() {
     const navigate = useNavigate()
+    const {id}= useParams()
     const patientsStorage = import.meta.env.VITE_REACT_APP_LOCALSTORAGE_PATIENTS_LIST
     const [name, setName] = useState("")
     const [dataNascimento, setDataNascimento] = useState("")
@@ -26,6 +27,29 @@ export function PatientDetail() {
     const [rua, setRua] = useState("")
     const [numeroCasa, setNumeroCasa] = useState("")
     const [registrationPatient, setRegistrationPatient] = useState(false)
+
+    useEffect( () => {
+        loadData()
+    }, [])
+
+    const loadData = () => {
+        if(id && id !== 'new'){
+            const data: string | null = localStorage.getItem(patientsStorage)
+            const patient = (JSON.parse(data || "[]")).find((item: any) => item.id == id)
+            console.log(patient)
+            if(patient){
+                setName(patient.name)
+                setDataNascimento(patient.dataNascimento)
+                setCpf(patient.cpf)
+                setSexo(patient.sexo)
+                setCep(patient.cep)
+                setCidade(patient.cidade)
+                setUf(patient.uf)
+                setRua(patient.rua)
+                setNumeroCasa(patient.numeroCasa)
+            }
+        }
+    }
 
     const validatePatient = () => {
         if(!name) {
@@ -66,24 +90,29 @@ export function PatientDetail() {
         return patientList.length + 1
     }
 
-    const formatBirthDatePatient = (date: string) => {
-        const ano = date.slice(0, 4)
-        const mes = date.slice(5, 7)
-        const dia = date.slice(8, 10)
-        return `${dia}/${mes}/${ano}`
-    }
-
     const handleAddPatient = () => {
         let obj = {
             id: generatePatientId(),
-            nome: name,
-            dataNascimento: formatBirthDatePatient(dataNascimento),
+            name: name,
+            dataNascimento: dataNascimento,
             cpf: cpf,
             sexo: sexo,
             endereco: `${cep}, ${cidade}-${uf}, ${rua}, ${numeroCasa}`,
+            cep: cep,
+            cidade: cidade,
+            uf: uf,
+            rua: rua,
+            numeroCasa: numeroCasa,
             ativo: true
         }
-        localStorage.setItem(patientsStorage, JSON.stringify([...getPatientList(), obj]))
+        if(id == 'new'){
+            localStorage.setItem(patientsStorage, JSON.stringify([...getPatientList(), obj]))
+        } else {
+            let patients = getPatientList()
+            const pos = patients.map((item: any) => item.id).indexOf(parseInt(id || ''))
+            patients[pos] = obj
+            localStorage.setItem(patientsStorage, JSON.stringify(patients))
+        }
         navigate(-1)
     }
 
@@ -93,7 +122,7 @@ export function PatientDetail() {
                 size="sm"
                 as="h3"
             >
-                Cadastro de Paciente
+                {id == 'new' ? 'Cadastro' : 'Atualização'} de Paciente
             </Heading>
             <Box
                 w="100%"
@@ -212,7 +241,7 @@ export function PatientDetail() {
                     bg='green'
                     color='white'
                 >
-                    Cadastrar
+                    {id == 'new' ? 'Cadastrar' : 'Atualizar'}
                 </Button>
             </Box>
         </Box>

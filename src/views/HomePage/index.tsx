@@ -21,7 +21,7 @@ export function HomePage() {
     const tableColumns = [
         {
             Header: "Nome",
-            accessor: "nome" as const
+            accessor: "name" as const
         },
         {
             Header: "Data de Nascimento",
@@ -58,9 +58,16 @@ export function HomePage() {
         }))
     }
 
+    const formatBirthDatePatient = (date: string) => {
+        const ano = date.slice(0, 4)
+        const mes = date.slice(5, 7)
+        const dia = date.slice(8, 10)
+        return `${dia}/${mes}/${ano}`
+    }
+
     const tableData = patients.filter(item  => item.ativo).map((patient: any, index: number) => ({
-        nome: patient?.nome,
-        dataNascimento: patient?.dataNascimento,
+        name: patient?.name,
+        dataNascimento: formatBirthDatePatient(patient?.dataNascimento),
         cpf: patient?.cpf,
         sexo: patient?.sexo,
         endereco: patient?.endereco,
@@ -68,7 +75,7 @@ export function HomePage() {
             <>
                 <Button 
                     colorScheme={"yellow"}
-                    onClick={() => console.log("Editar", patient)}
+                    onClick={() => navigate(`/patient/${patient.id}`)}
                     size="sm"
                 >
                     <Icon

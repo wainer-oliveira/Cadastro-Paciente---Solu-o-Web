@@ -6,14 +6,12 @@ import { Box,
      HStack,
      Icon,
      Input,
-     InputGroup,
-     NumberInput,
-     NumberInputField,
      Radio,
      RadioGroup} from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { BiArrowBack } from "react-icons/all"
 import { useNavigate } from "react-router-dom"
+import { IMaskInput } from "react-imask";
 
 export function PatientDetail() {
     const navigate = useNavigate()
@@ -22,23 +20,13 @@ export function PatientDetail() {
     const [dataNascimento, setDataNascimento] = useState("")
     const [cpf, setCpf] = useState("")
     const [sexo, setSexo] = useState("")
-    const [endereco, setEndereco] = useState("")
+    // const [endereco, setEndereco] = useState("")
 
-    const cpfMask= (value: string) => {
-        return value
-          .replace(/\D+/g, "")
-          .replace(/(\d{3})(\d)/, "$1.$2")
-          .replace(/(\d{3})(\d)/, "$1.$2")
-          .replace(/(\d{3})(\d)/, "$1-$2")
-          .replace(/(\d{2})(\d)/, "$1$2")
-      }
-
-      const cepMask= (value: string) => {
-        return value
-          .replace(/\D+/g, "")
-          .replace(/(\d{5})(\d)/, "$1-$4")
-          .replace(/(\d{3})(\d)/, "$1-$2")
-      }
+    const masks = {
+        cpf: "000.000.000-00",
+        cep: "00000-000",
+        UF: "aa"
+    }
 
     const getPatientList = () => {
         let itens: string | null = localStorage.getItem(patientsStorage)
@@ -60,18 +48,14 @@ export function PatientDetail() {
         return `${dia}/${mes}/${ano}`
     }
 
-    const formatCpfPatient = (patientCpf: string) => {
-        if (patientCpf.length > 13) return patientCpf.slice(0,14)
-    }
-
     const handleAddPatient = () => {
         let obj = {
             id: generatePatientId(),
             nome: name,
             dataNascimento: formatBirthDatePatient(dataNascimento),
-            cpf: formatCpfPatient(cpf),
+            cpf: cpf,
             sexo: sexo,
-            endereco: endereco,
+            // endereco: endereco,
             ativo: true
         }
         localStorage.setItem(patientsStorage, JSON.stringify([...getPatientList(), obj]))
@@ -121,11 +105,12 @@ export function PatientDetail() {
                         <Box p={3}>
                             <FormLabel as='legend'>CPF</FormLabel>
                             <Input
-                                isRequired
+                                as={IMaskInput}
+                                mask={masks.cpf}
                                 value={cpf}
-                                onChange={(e: any) => {
-                                    const patientCpf = cpfMask(e.target.value)
-                                    setCpf(patientCpf)
+                                onChange={(e: any) => { setCpf(e.target.value)
+                                    // const patientCpf = cpfMask(e.target.value)
+                                    // setCpf(patientCpf)
                                 }}
                             />
                         </Box>
@@ -142,6 +127,49 @@ export function PatientDetail() {
                         </HStack>
                     </RadioGroup>
                 </FormControl>
+                <FormControl>
+                    <Box>
+                        <FormLabel>CEP</FormLabel>
+                        <Input
+                          as={IMaskInput}
+                          mask={masks.cep}
+                          placeholder="Digite se CEP"
+                          onChange= {(e: any) => {
+                            console.log(e.target.value)
+                          }}
+                        />    
+                    </Box>
+                    <Box>
+                        <FormLabel>Rua</FormLabel>
+                        <Input
+                          placeholder="Rua"
+                          onChange= {(e: any) => {
+                            console.log(e.target.value)
+                          }}
+                        />    
+                    </Box>
+                    <Box>
+                        <FormLabel>Cidade</FormLabel>
+                        <Input
+                          placeholder="Cidade"
+                          onChange= {(e: any) => {
+                            console.log(e.target.value)
+                          }}
+                        />    
+                    </Box>
+                    <Box>
+                        <FormLabel>UF</FormLabel>
+                        <Input
+                          as={IMaskInput}
+                          mask={masks.UF}
+                          placeholder="UF"
+                          onChange= {(e: any) => {
+                            console.log((e.target.value).toUpperCase())
+                          }}
+                        />    
+                    </Box>
+                </FormControl>
+
                 <Box p={3}>
                 </Box>
                 <Button

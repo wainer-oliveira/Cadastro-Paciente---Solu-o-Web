@@ -68,7 +68,7 @@ export function HomePage() {
         action: (
             <>
                 <Button 
-                    colorScheme={"blue"}
+                    colorScheme={"yellow"}
                     onClick={() => console.log("Editar", patient)}
                     size="sm"
                 >

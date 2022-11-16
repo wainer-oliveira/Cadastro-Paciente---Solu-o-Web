@@ -36,7 +36,6 @@ export function PatientDetail() {
         if(id && id !== 'new'){
             const data: string | null = localStorage.getItem(patientsStorage)
             const patient = (JSON.parse(data || "[]")).find((item: any) => item.id == id)
-            console.log(patient)
             if(patient){
                 setName(patient.name)
                 setDataNascimento(patient.dataNascimento)
@@ -91,8 +90,7 @@ export function PatientDetail() {
     }
 
     const handleAddPatient = () => {
-        let obj = {
-            id: generatePatientId(),
+        let obj: any = {
             name: name,
             dataNascimento: dataNascimento,
             cpf: cpf,
@@ -106,8 +104,10 @@ export function PatientDetail() {
             ativo: true
         }
         if(id == 'new'){
+            obj["id"] = generatePatientId()
             localStorage.setItem(patientsStorage, JSON.stringify([...getPatientList(), obj]))
-        } else {
+        } else{
+            obj["id"] = id
             let patients = getPatientList()
             const pos = patients.map((item: any) => item.id).indexOf(parseInt(id || ''))
             patients[pos] = obj

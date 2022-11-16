@@ -26,6 +26,27 @@ export function PatientDetail() {
     const [rua, setRua] = useState("")
     const [numeroCasa, setNumeroCasa] = useState("")
     const [endereco, setEndereco] = useState("")
+    const [registrationPatient, setRegistrationPatient] = useState(true)
+
+    const validatePatient = () => {
+        if(!name) {
+            setRegistrationPatient(false)
+            return
+        }
+        if(!dataNascimento) {
+            setRegistrationPatient(false)
+            return
+        }
+        if(!cpf) {
+            setRegistrationPatient(false)
+            return
+        }
+        if(!sexo) {
+            setRegistrationPatient(false)
+            return
+        }
+        handleAddPatient()
+    }
 
     const masks = {
         cpf: "000.000.000-00",
@@ -90,7 +111,7 @@ export function PatientDetail() {
                 </Button>
             </Box>
             <Box p={3}>
-                <FormControl isRequired>
+                <FormControl isInvalid={registrationPatient}>
                     <FormLabel as='legend'>Nome</FormLabel>
                     <Input
                         w={'70%'}
@@ -132,15 +153,13 @@ export function PatientDetail() {
                         </HStack>
                     </RadioGroup>
                 </FormControl>
-                <FormControl p={3}>
-                    <FormLabel 
-                        as='legend'
-                        onChange={(e: any) =>{
-                            setEndereco(`${cep}, ${cidade}-${uf}, ${rua}, ${numeroCasa},`)
-                        }
-
-                        }
-                    >Endereço</FormLabel>
+                <FormControl 
+                    p={3}
+                    onChange={(e: any) =>{
+                        setEndereco(`${cep}, ${cidade}-${uf}, ${rua}, ${numeroCasa}`)
+                    }}
+                >
+                    <FormLabel as='legend'>Endereço</FormLabel>
                     <HStack>
                         <Box p={3} w={'15%'}>
                             <FormLabel>CEP</FormLabel>
@@ -195,7 +214,7 @@ export function PatientDetail() {
                 <Box p={3}>
                 </Box>
                 <Button
-                    onClick={handleAddPatient}
+                    onClick={validatePatient}
                     bg='green'
                     color='white'
                 >

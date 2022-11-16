@@ -20,7 +20,12 @@ export function PatientDetail() {
     const [dataNascimento, setDataNascimento] = useState("")
     const [cpf, setCpf] = useState("")
     const [sexo, setSexo] = useState("")
-    // const [endereco, setEndereco] = useState("")
+    const [cep, setCep] = useState("")
+    const [cidade, setCidade] = useState("")
+    const [uf, setUf] = useState("")
+    const [rua, setRua] = useState("")
+    const [numeroCasa, setNumeroCasa] = useState("")
+    const [endereco, setEndereco] = useState("")
 
     const masks = {
         cpf: "000.000.000-00",
@@ -55,7 +60,7 @@ export function PatientDetail() {
             dataNascimento: formatBirthDatePatient(dataNascimento),
             cpf: cpf,
             sexo: sexo,
-            // endereco: endereco,
+            endereco: endereco,
             ativo: true
         }
         localStorage.setItem(patientsStorage, JSON.stringify([...getPatientList(), obj]))
@@ -127,53 +132,72 @@ export function PatientDetail() {
                         </HStack>
                     </RadioGroup>
                 </FormControl>
-                <FormControl>
-                    <Box>
-                        <FormLabel>CEP</FormLabel>
-                        <Input
-                          as={IMaskInput}
-                          mask={masks.cep}
-                          placeholder="Digite se CEP"
-                          onChange= {(e: any) => {
-                            console.log(e.target.value)
-                          }}
-                        />    
-                    </Box>
-                    <Box>
-                        <FormLabel>Rua</FormLabel>
-                        <Input
-                          placeholder="Rua"
-                          onChange= {(e: any) => {
-                            console.log(e.target.value)
-                          }}
-                        />    
-                    </Box>
-                    <Box>
-                        <FormLabel>Cidade</FormLabel>
-                        <Input
-                          placeholder="Cidade"
-                          onChange= {(e: any) => {
-                            console.log(e.target.value)
-                          }}
-                        />    
-                    </Box>
-                    <Box>
-                        <FormLabel>UF</FormLabel>
-                        <Input
-                          as={IMaskInput}
-                          mask={masks.UF}
-                          placeholder="UF"
-                          onChange= {(e: any) => {
-                            console.log((e.target.value).toUpperCase())
-                          }}
-                        />    
-                    </Box>
+                <FormControl p={3}>
+                    <FormLabel 
+                        as='legend'
+                        onChange={(e: any) =>{
+                            setEndereco(`${cep}, ${cidade}-${uf}, ${rua}, ${numeroCasa},`)
+                        }
+
+                        }
+                    >Endereço</FormLabel>
+                    <HStack>
+                        <Box p={3} w={'15%'}>
+                            <FormLabel>CEP</FormLabel>
+                            <Input
+                              as={IMaskInput}
+                              mask={masks.cep}
+                              value={cep}
+                              placeholder="Digite se CEP"
+                              onChange= {(e: any) => setCep(e.target.value)}
+                            />    
+                        </Box>
+                        <Box p={3} w={'30%'}>
+                            <FormLabel>Cidade</FormLabel>
+                            <Input
+                                value={cidade}
+                              placeholder="Cidade"
+                              onChange= {(e: any) => setCidade(e.target.value)}
+                            />    
+                        </Box>
+                        <Box p={3} w={'10%'}>
+                            <FormLabel>UF</FormLabel>
+                            <Input
+                              as={IMaskInput}
+                              mask={masks.UF}
+                              value={uf}
+                              placeholder="UF"
+                              onChange= {(e: any) => setUf((e.target.value).toUpperCase())}
+                            />    
+                        </Box>
+                    </HStack>
+                    <HStack>
+                        <Box p={3} w={'70%'}>
+                            <FormLabel>Rua</FormLabel>
+                            <Input
+                              placeholder="Rua"
+                              value={rua}
+                              onChange= {(e: any) => setRua(e.target.value)}
+                            />    
+                        </Box>
+                        <Box p={3} w={'15%'}>
+                            <FormLabel>Número</FormLabel>
+                            <Input
+                              type={'number'}
+                              placeholder="Nº"
+                              value={numeroCasa}
+                              onChange= {(e: any) => setNumeroCasa(e.target.value)}
+                            />    
+                        </Box>
+                    </HStack>
                 </FormControl>
 
                 <Box p={3}>
                 </Box>
                 <Button
                     onClick={handleAddPatient}
+                    bg='green'
+                    color='white'
                 >
                     Cadastrar
                 </Button>
